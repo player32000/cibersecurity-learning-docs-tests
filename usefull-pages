@@ -1,0 +1,100 @@
+Herramientas y páginas web útiles e interesantes para Ciberseguridad:
+___________________________________________________________________________
+SHODAN (Simulado en TryHackMe como "TryScanMe")
+
+¿QUE ES?
+Un motor de búsqueda especializado que, a diferencia de Google (que busca páginas web), 
+busca dispositivos conectados a internet (servidores, routers, cámaras de seguridad, semáforos, etc.).
+
+¿COMO FUNCIONA?
+Escanea constantemente todo internet de forma pública.
+Recoge los "banners" (mensajes de bienvenida) de los puertos abiertos de cada dispositivo y los indexa en su base de datos.
+
+FILTROS BASICOS DE BUSQUEDA:
+* country:IE       -> Restringe los resultados a un país específico (ej: Irlanda).
+* port:22          -> Filtra dispositivos que tengan un puerto específico abierto (ej: SSH).
+* org:Amazon       -> Busca dispositivos que pertenezcan a una organización o empresa.
+* hostname:dominio -> Busca coincidencias con un nombre de dominio específico.
+
+CASOS DE USO:
+1. Para el Atacante: Encuentra servidores desactualizados, cámaras sin contraseña o sistemas industriales expuestos públicamente para ser explotados.
+2. Para el Defensor: Monitorea si los dispositivos de su propia empresa se están "filtrando" en Shodan por culpa de una mala configuración.
+___________________________________________________________________________
+VIRUSTOTAL (Simulado en TryHackMe como "TryDetectMe")
+
+¿QUE ES?
+Un servicio gratuito que unifica más de 70 motores de antivirus y escáneres de URL
+de las mejores empresas de seguridad del mundo en una sola interfaz.
+
+¿COMO FUNCIONA?
+Recibe un archivo, enlace (URL), dominio o un "hash" (la firma digital de un archivo).
+Lo analiza simultáneamente con decenas de antivirus (como Kaspersky, McAfee, Avast) 
+y te muestra cuántos de ellos lo consideran peligroso.
+
+CASOS DE USO:
+1. Para el Defensor (Blue Team): Obtiene un consenso rápido y opiniones de expertos
+sobre si un archivo sospechoso descargado por un usuario es realmente malware o un falso positivo.
+
+2. Para el Atacante: (Malicioso) Sube sus virus modificados para comprobar
+en secreto cuántos antivirus lo detectan antes de lanzarlo en una campaña real.
+___________________________________________________________________________
+BASES DE DATOS DE VULNERABILIDADES (CVE)
+
+¿QUE ES?
+Sistemas de registro global donde se reportan y documentan 
+de forma oficial las fallas de seguridad descubiertas en softwares y hardwares del mundo. 
+
+¿QUE SIGNIFICA CVE?
+Common Vulnerabilities and Exposures (Vulnerabilidades y Exposiciones Comunes).
+Cada falla tiene un código único (Ej: CVE-2026-1337).
+
+¿COMO SE EVALUAN? (Sistema CVSS)
+Se les asigna una puntuación de riesgo basada en factores como:
+* Impacto: ¿Qué tanto daño puede causar? (Robo de datos, apagar el sistema, etc.).
+* Complejidad: ¿Es fácil o difícil de explotar para el hacker?
+* Disponibilidad: ¿Qué tan expuesto está el sistema afectado?
+
+CASOS DE USO:
+1. Para el Atacante: Busca en bases de datos (o plataformas como ExploitDB) 
+"Proof of Concepts" (PoCs), que son los códigos o scripts listos para explotar ese CVE específico.
+2. Para el Defensor: Prioriza los parches de seguridad de la empresa, 
+solucionando primero los CVEs con las puntuaciones más altas y críticas.
+___________________________________________________________________________
+
+PÁGINAS MAN (Manuales de Linux)
+
+¿QUE ES?
+Es el sistema oficial de documentación y ayuda integrada
+que viene por defecto en prácticamente todos los sistemas operativos basados en Unix/Linux. 
+
+¿COMO FUNCIONA?
+Te permite consultar el manual completo de cualquier comando del sistema de forma local (offline) 
+ejecutando en la terminal la palabra `man` seguida del comando que quieres investigar.
+
+¿COMO SE USA?
+* `man nmap`        -> Abre el manual completo de Nmap con todas sus banderas y explicaciones.
+* `man traceroute`  -> Muestra cómo usar el comando traceroute en Linux.
+
+CASOS DE USO:
+1. Para el Atacante: Encuentra banderas (flags) avanzadas u ocultas de una herramienta para realizar
+ataques más específicos o evadir sistemas de detección sin necesidad de buscar en internet.
+
+2. Para el Defensor: Permite entender rápidamente la sintaxis de un comando desconocido 
+encontrado en un script sospechoso durante una investigación forense.
+___________________________________________________________________________
+REPOSITORIOS DE CÓDIGO (GitHub / GitLab)
+
+¿QUE ES?
+Plataformas web que permiten a los desarrolladores y profesionales de seguridad alojar,
+compartir y colaborar en el desarrollo de software y scripts utilizando el sistema de control de versiones Git.
+
+¿COMO FUNCIONA?
+Los usuarios crean "repositorios" públicos o privados.
+Cualquiera puede buscar código en ellos, descargarlo (clonarlo) a su computadora local o proponer mejoras al proyecto.
+
+CASOS DE USO:
+1. Para el Atacante: Descarga herramientas de hacking de código abierto (como Mimikatz o LinPeas) 
+y busca contraseñas o llaves API expuestas por error en el código público de los desarrolladores.
+2. Para el Defensor: Analiza el código fuente de herramientas maliciosas para entender cómo funcionan por dentro 
+y crea firmas de detección para bloquearlas en la red de la empresa.
+___________________________________________________________________________
