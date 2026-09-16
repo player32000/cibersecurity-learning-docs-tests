@@ -29,3 +29,11 @@ Ejemplo:
 Si usas un comando común, responderá: apt update (Permiso denegado)
 Si antepones el comando, responderá algo como: sudo apt update (Ingresa tu contraseña para continuar) 
 -------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+ECHO: 
+Muestra o imprime en la pantalla de la terminal el texto o las variables que le pases como argumento.
+Ejemplo: 
+Si escribes echo "Hola Mundo", responderá: Hola Mundo
+Si escribes echo $USER, responderá el nombre de tu usuario actual: juan
+-------------------------------------------------------------------------------
+
