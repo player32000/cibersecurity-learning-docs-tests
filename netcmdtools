@@ -1,0 +1,109 @@
+Herramientas y paginas que he encontrado utiles u interesantes:
+___________________________________________________________________________
+TRACERT:
+
+¿QUE ES?
+Comando de diagnóstico de red que muestra la ruta exacta y los retardos que siguen los paquetes de datos desde tu computadora hasta un destino en internet.
+
+¿COMO FUNCIONA? 
+Envía paquetes de datos con un tiempo de vida (TTL, por sus siglas en inglés) que va aumentando de uno en uno. 
+Cada enrutador (router) por el que pasa el paquete resta uno al TTL. 
+Cuando llega a cero, el enrutador devuelve un aviso, lo que permite registrar su dirección IP y el tiempo que tardó.
+
+¿COMO SE USA?
+
+tracert google.com
+
+Ruta a google.com con un máximo de 30 saltos:
+  1    2 ms    1 ms    1 ms  192.168.1.1 (Tu router de casa)
+  2   12 ms   11 ms   10 ms  10.24.50.1  (Nodo de tu proveedor de internet)
+  3   25 ms   24 ms   26 ms  142.250.210.1 (Servidor intermedio)
+  4   28 ms   27 ms   27 ms  142.250.190.46 (Destino final: Google)
+
+tracert -h 15 google.com
+-H : Un salto (conocido en inglés como hop) es cada uno de los enrutadores (routers)
+o servidores intermedios por los que pasan tus datos al viajar
+desde tu computadora hasta su destino final en internet.
+
+Asteriscos (*): Si ves un asterisco en lugar de un tiempo o una IP, 
+significa que el enrutador configuró su seguridad para no responder a estos sondeos 
+(lo cual es normal) o que hay una pérdida de paquetes en esa zona.
+
+CASOS DE USO:
+
+1. Para el Atacante (Reconocimiento) 
+Mapea la red: Descubre los servidores intermedios antes del objetivo principal.
+Detecta defensas: Ubica firewalls cuando la ruta se corta o muestra asteriscos (*).
+Revela proveedores: Identifica si la empresa usa protección externa (como Cloudflare).
+
+2. Para el Defensor (Protección)
+Detecta desvíos (BGP Hijacking): Alerta si el tráfico se desvía sospechosamente por otros países.
+Audita el ocultamiento: Verifica que los firewalls estén bloqueando el comando para no revelar la estructura interna.
+
+El tracert común se bloquea fácil.
+Los atacantes usan Nmap o Traceroute de Linux enviando tráfico web común (TCP/puerto 80 o 443) para esquivar bloqueos y mapear la red en secreto. <-------
+______________________________________________________________________________________
+
+
+NMAP (Network Mapper):
+
+¿QUE ES?
+Herramienta de código abierto utilizada para el escaneo de redes, descubrimiento de hosts y auditoría de seguridad. Se le conoce como el "cuchillo suizo" de la ciberseguridad.
+
+¿COMO FUNCIONA?
+Envía paquetes de datos diseñados a un objetivo (IP o dominio) y analiza las respuestas. 
+Según cómo responda la máquina (o si no responde), Nmap deduce si el dispositivo está encendido, qué puertos virtuales tiene abiertos, qué sistema operativo usa y qué programas está ejecutando.
+
+¿COMO SE USA?
+
+nmap 192.168.1.1 (o nmap scanme.nmap.org)
+
+Resultado básico de ejemplo:
+PORT     STATE SERVICE
+22/tcp   open  ssh
+80/tcp   open  http
+443/tcp  open  https
+
+Comandos prácticos y banderas (Flags) esenciales:
+
+nmap -sn 192.168.1.0/24
+-sn : Escaneo de ping. Solo descubre qué dispositivos están encendidos en la red sin escanear sus puertos (Rápido y silencioso).
+
+nmap -p 80,443,22 192.168.1.5
+-p : Escanea únicamente los puertos específicos que le indiques, en lugar de los 1000 puertos principales que hace por defecto.
+
+nmap -sV -O 192.168.1.5
+-sV : Detecta la versión exacta del software que corre en los puertos (ej: Apache 2.4.41).
+-O : Intenta adivinar el Sistema Operativo (Windows, Linux, etc.) analizando las respuestas del sistema.
+
+nmap -A 192.168.1.5
+-A : "Modo Agresivo". Activa en un solo comando la detección de S.O, versiones, escaneo de scripts básicos y la ruta (traceroute).
+
+nmap --traceroute -p 80 google.com
+--traceroute : Hace lo mismo que el tracert común, pero camuflado como tráfico web (puerto 80) para saltarse firewalls.
+
+CASOS DE USO:
+
+1. Para el Atacante (Reconocimiento y Análisis de Vulnerabilidades)
+Mapeo de superficie: Descubre qué dispositivos y servicios están expuestos en internet.
+Búsqueda de debilidades: Al saber la versión exacta de un programa (con -sV), busca exploits públicos para hackear esa versión.
+Evasión: Permite camuflar escaneos lentos o paquetes falsos para no ser detectado por los sistemas de monitoreo.
+
+2. Para el Defensor (Auditoría y Bastionado)
+Inventario de red: Asegura que no haya dispositivos no autorizados conectados a la red de la empresa.
+Cierre de puertos: Identifica puertos abiertos innecesariamente (ej: una base de datos expuesta) para cerrarlos de inmediato.
+Auditoría de parches: Confirma si los servidores tienen softwares desactualizados y vulnerables antes de que un atacante los encuentre.
+
+Nmap cuenta con un motor de scripts llamado NSE (--script). 
+Los profesionales lo usan para automatizar la búsqueda de fallas graves o contraseñas por defecto con un solo comando. <-------
+
+NOTA DE CIBERSEGURIDAD REAL (¿Se puede usar Nmap sin la clave de un Wi-Fi?):
+NO directamente. Para que Nmap funcione, el atacante DEBE estar dentro de la red (tener una IP asignada). 
+
+Si el atacante está fuera del Wi-Fi:
+1. Primero usa herramientas inalámbricas (como Aircrack-ng) en "Modo Monitor" para capturar el tráfico del aire, capturar el handshake y romper la contraseña.
+2. Solo CUANDO LOGRA CONECTARSE a la red, es cuando ejecuta NMAP para escanear a los demás dispositivos conectados.
+<-------
+
+______________________________________________________________________________________
+
