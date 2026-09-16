@@ -1,0 +1,31 @@
+-------------------------------------------------------------------------------
+WHOAMI: 
+La respuesta de whoami es simplemente una línea de texto con tu nombre de usuario
+Ejemplo: 
+Si eres un usuario común, responderá algo como: juan
+Si estás ejecutando el comando como administrador, responderá: root
+-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+ID: 
+Te muestra tu ID de usuario, tu ID de grupo principal y todos los grupos a los que perteneces
+Ejemplo: 
+Si eres un usuario común, responderá algo como: 
+uid=1000(juan) 
+gid=1000(juan) 
+grupos=1000(juan),
+27(sudo)
+Si estás ejecutando el comando como administrador, responderá: uid=0(root) gid=0(root) grupos=0(root)
+-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+SUDO -L: 
+Te muestra la lista exacta de comandos con privilegios de administrador que puedes ejecutar
+Ejemplo: 
+Si tienes todos los permisos, responderá algo como: (ALL : ALL) ALL
+Si no tienes permisos de sudo, responderá algo como: el usuario juan no puede ejecutar sudo en este host
+
+Significa Superuser Do (Superusuario Haz). 
+Permite a un usuario común ejecutar comandos con los privilegios de administrador (root) de forma temporal y segura.
+Ejemplo:
+Si usas un comando común, responderá: apt update (Permiso denegado)
+Si antepones el comando, responderá algo como: sudo apt update (Ingresa tu contraseña para continuar) 
+-------------------------------------------------------------------------------
