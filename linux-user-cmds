@@ -36,4 +36,50 @@ Ejemplo:
 Si escribes echo "Hola Mundo", responderá: Hola Mundo
 Si escribes echo $USER, responderá el nombre de tu usuario actual: juan
 -------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+GREP: 
+Busca y filtra texto. 
+Escanea un archivo o el resultado de un comando y 
+muestra en pantalla únicamente las líneas que contienen la palabra clave que especificaste.
+Ejemplo: 
+Si buscas la palabra "juan" en el archivo de usuarios, escribes: grep "juan" /etc/passwd
+Responderá mostrando solo la línea de ese usuario: juan:x:1000:1000:,,,:/home/juan:/bin/bash
+
+Por defecto distingue mayúsculas de minúsculas al buscar texto.
+Si necesitas que las ignore, debes agregar obligatoriamente la bandera -i.
+Ejemplo: 
+Si buscas "JUAN" en minúsculas en un texto que dice "Juan", con grep "juan" responderá: (nada, no encuentra coincidencia)
+Si usas la bandera de ignorar, con grep -i "juan" responderá la línea completa: Juan
+-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+& (OPERADOR DE SEGUNDO PLANO): 
+Ejecuta un comando en segundo plano (background). 
+Permite seguir usando la terminal inmediatamente mientras el proceso se ejecuta por detrás.
+Ejemplo: 
+Si ejecutas un escaneo largo: nmap 10.10.10.10 &
+Responderá dándote un número de proceso (PID) y te dejará seguir escribiendo.
+-------------------------------------------------------------------------------
+&& (OPERADOR Y LÓGICO): 
+Conecta dos comandos. 
+El segundo comando se ejecutará única y exclusivamente si el primer comando terminó con éxito (sin errores).
+Ejemplo: 
+Si quieres actualizar e instalar algo solo si la actualización funciona: apt update && apt upgrade
+Responderá ejecutando el segundo comando solo si el primero terminó bien.
+-------------------------------------------------------------------------------
+> (REDIRECCIONAMIENTO - SOBREESCRITURA): 
+Toma la salida de un comando y la guarda dentro de un archivo de texto. 
+Si el archivo ya existe, borra todo su contenido anterior.
+Ejemplo: 
+Si guardas un texto en un archivo: echo "Hola" > nota.txt
+El archivo nota.txt ahora solo contendrá la palabra: Hola
+-------------------------------------------------------------------------------
+>> (REDIRECCIONAMIENTO - AÑADIR): 
+Toma la salida de un comando y la agrega al final de un archivo de texto.
+Mantiene el contenido que ya existía y añade el nuevo texto abajo.
+Ejemplo: 
+Si añades texto al archivo anterior: echo "Mundo" >> nota.txt
+El archivo nota.txt ahora contendrá: Hola (en la primera línea) y Mundo (en la segunda).
+-------------------------------------------------------------------------------
+
+
 
